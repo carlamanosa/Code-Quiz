@@ -16,8 +16,8 @@
 <body>
     <nav class="nav">
         <a class="highscoreLink" href="#">View High Scores</a>
-        <!-- Insert time component in nav -->
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
+        <div id="progress"></div> 
+        <div class="prog"></div>
     </nav>
 
     <div class="card">
@@ -26,15 +26,25 @@
                 <p>Welcome to the Code Quiz Challenge!<br> Click start to continue.</br></p>
             </div>
 
-            <div id="quiz" style= "display: none">
+            <div id="quiz" style= "display : none">
                 <div id="question"></div>
+                <div id="timer"></div>
+                <div id="counter">10</div>
+                <div id="timeGauge"></div>
+                <div id="secondsLeft"></div>
                 <div id="choices">
-                        <button id="buttonA" type="submit">Button</button>
-                        <button id="buttonB" type="submit">Button</button>
-                        <button id="buttonC" type="submit">Button</button>
-                        <button id="buttonD" type="submit">Button</button>
+                    <div class="choice" id="A" onclick="question.choicesArr[0]">A</div>
+                    <div class="choice" id="B" onclick="question.choicesArr[1]">A</div>
+                    <div class="choice" id="C" onclick="question.choicesArr[2]">A</div>
+                    <div class="choice" id="D" onclick="question.choicesArr[3]">A</div>
+                </div>
+                
+                </div>
 
-                    </div>
+                <div id="scoreContainer" style="display : none;"></div>
+
+
+                </div>
                 
 
 
