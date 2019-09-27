@@ -22,14 +22,6 @@ const choiceD = document.getElementById("D");
 let finalQuestion = questions.length - 1;
 let runningQuestion = 0
 
-function renderQuestion() {
-    let q = questions[runningQuestion];
-    question.innerHTML = "<p>" + q.question + "<p>";
-    choiceA.innerHTML = q.choiceA;
-    choiceB.innerHTML = q.choiceB;
-    choiceC.innerHTML = q.choiceC;
-    choiceD.innerHTML = q.choiceD;
-}
 
 // runningQuestion = 0;
 // renderQuestion()
@@ -59,13 +51,10 @@ function startQuiz() {
     quiz.style.display = "block";
 
 }
-
-function answerCorrect() {
-    document.getElementById(runningQuestion).style.backgroundColor = "yellow";
-}
-
-function answerWrong() {
-    document.getElementById(runningQuestion).style.backgroundColor = "purple";
+function progressRender() {
+    for(let qIndex = 0; qIndex <= finalQuestionIndex; qIndex++){
+        progress.innerHTML += "<div class='prog' id=" + qIndex + "></div>";
+    }
 }
 
 function counterRender() {
@@ -88,6 +77,16 @@ function counterRender() {
     }
 }
 
+// Give Question
+function renderQuestion() {
+    let q = questions[runningQuestion];
+    question.innerHTML = "<p>" + q.question + "<p>";
+    choiceA.innerHTML = q.choiceA;
+    choiceB.innerHTML = q.choiceB;
+    choiceC.innerHTML = q.choiceC;
+    choiceD.innerHTML = q.choiceD;
+}
+
 function checkAnswer(answer) {
     if(questions[runningQuestion].correct == answer) {
         score++;
@@ -102,6 +101,21 @@ function checkAnswer(answer) {
     }else{
         clearInterval(TIMER);
     }
+}
+
+function answerCorrect() {
+    document.getElementById(runningQuestion).style.backgroundColor = "yellow";
+}
+
+function answerWrong() {
+    document.getElementById(runningQuestion).style.backgroundColor = "purple";
+}
+
+
+function scoreRender() {
+    scoreContainer.style.display = "block";
+    let scorePercent = math.round(100 * score/ questions.length);
+
 }
 
 
