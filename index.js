@@ -1,75 +1,116 @@
-const start = document.getElementById("start-page");
+// Elements
+const start = document.getElementById("start");
 const quiz = document.getElementById("quiz");
-const question = document.getElementById("question");
-const counter = document.getElementById("counter");
-
-const progress = document.getElementById("progress");
-const scoreContainer = document.getElementById("storeContainer");
-
-// Timer
-const timeGauge = document.getElementById("timeGauge");
-const gaugeWidth = 150;
-const questionTime = 10;
-let count = 0;
-const gaugeProgressBar = gaugeWidth/questionTime;
-
-// Choices
+const questionID = document.getElementById("question");
 const choiceA = document.getElementById("A");
 const choiceB = document.getElementById("B");
 const choiceC = document.getElementById("C");
 const choiceD = document.getElementById("D");
+const counter = document.getElementById("counter");
+const timeGauge = document.getElementById("timeGauge");
+const progress = document.getElementById("progress");
+const scoreDiv = document.getElementById("score");
+const choices = document.getElementsByClassName("choice");
 
-let finalQuestion = questions.length - 1;
-let runningQuestion = 0
+let currentQ = 0;
 
 
-// runningQuestion = 0;
-// renderQuestion()
-
-// runningQuestion++
-// renderQuestion()
-
-// Progress Bar
-
-function progressRender() {
-    for(let qIndex = 0; qIndex <= finalQuestionIndex; qIndex++){
-        progress.innerHTML += "<div class='prog' id=" + qIndex + "></div>";
+// Questions
+let questions = [
+    {
+        question: "How do we reference a class on css?",
+        choicesArr: [".", "#", "?", "!"],
+        correct: ".",
+    }, {
+        question: "To make our webpage neutral before we add or make changes, what document should we always add first?",
+        choicesArr: ["html", "css", "reset.css", "javascript"],
+        correct: "reset.css",
+    }, {
+        question: "What do we use to program the behavior of a web page?",
+        choicesArr: ["javascript", "html", "css", "VS Code"],
+        correct: "javascript",
+    }, {
+        question: "What the first term in an array?",
+        choicesArr: ["Index 2", "Index 1", "Index 0", "Index 3"],
+        correct: "Index 0",
+    }, {
+        question: "What is the third term in an array?",
+        choicesArr: ["Index 3", "Index 1", "Index 0", "Index 2"],
+        correct: "Index 2",
+    }, {
+        question: "What kind of data type consists of true or false values?",
+        choicesArr: ["Boolean", "String", "if", "else"],
+        correct: "Boolean",
     }
+
+]
+
+const finalQuestion = questions.length - 1;
+let runningQuestion = 0;
+
+function renderQuestion() {
+    let q = Math.floor(Math.random * questions.length)
+    if(currentQ < questions.length){
+        questionID.innerHTML = "<p>" + questions[currentQ].question + "<p>";
+        choiceA.innerHTML = questions[currentQ].choicesArr[0];
+        choiceA.setAttribute("value",questions[currentQ].choicesArr[0])
+        choiceB.innerHTML = questions[currentQ].choicesArr[1];
+        choiceB.setAttribute("value",questions[currentQ].choicesArr[1])
+        choiceC.innerHTML = questions[currentQ].choicesArr[2];
+        choiceC.setAttribute("value",questions[currentQ].choicesArr[2])
+        choiceD.innerHTML = questions[currentQ].choicesArr[3];
+        choiceD.setAttribute("value",questions[currentQ].choicesArr[3])
+    }
+    currentQ++;
+
 }
 
 // Start Quiz
+for (var i = 0; i < choices.length; i++) {
+    choices[i].onclick = checkAnswer;
+}
+start.onclick = startQuiz;
 
-start.addEventListener("click", startQuiz);
 
-let TIMER
 function startQuiz() {
+    console.log("clicked start")
     start.style.display = "none";
-    counterRender();
-    TIMER = setInterval(counterRender,1000);
-    progressRender();
     renderQuestion();
     quiz.style.display = "block";
+    progressRender();
+    counterRender();
+    TIMER = setInterval(counterRender, 1000);
+    
 
 }
+
 function progressRender() {
-    for(let qIndex = 0; qIndex <= finalQuestionIndex; qIndex++){
+    for (let qIndex = 0; qIndex <= finalQuestion; qIndex++) {
         progress.innerHTML += "<div class='prog' id=" + qIndex + "></div>";
     }
 }
 
+// counter render
+let count = 0;
+const questionTime = 10;
+const gaugeWidth = 150;
+const gaugeUnit = gaugeWidth / questionTime;
+let TIMER;
+let score = 0;
+
 function counterRender() {
-    if( count <= questionTime) {
+    if (count <= questionTime) {
         counter.innerHTML = count;
-        timeGauge.style.width = gaugeProgressBar * count + "px";
+        timeGauge.style.width = gaugeUnit * count + "px";
         count++;
     }
-    else{
+    else {
         count = 0;
-        answerIsWrong();
-        if( runningQuestion < finalQuestion) {
+        answerWrong();
+        if (runningQuestion < finalQuestion) {
             runningQuestion++;
             renderQuestion();
-        } else{
+        } else {
             clearInterval(TIMER);
             scoreRender();
         }
@@ -77,28 +118,21 @@ function counterRender() {
     }
 }
 
-// Give Question
-function renderQuestion() {
-    let q = questions[runningQuestion];
-    question.innerHTML = "<p>" + q.question + "<p>";
-    choiceA.innerHTML = q.choiceA;
-    choiceB.innerHTML = q.choiceB;
-    choiceC.innerHTML = q.choiceC;
-    choiceD.innerHTML = q.choiceD;
-}
-
-function checkAnswer(answer) {
-    if(questions[runningQuestion].correct == answer) {
+function checkAnswer(event) {
+    console.log("bruh");
+    var answer = event.target.value;
+    console.log(answer);
+    if (questions[runningQuestion].correct === answer) {
         score++;
         answerCorrect();
-    } else{
+    } else {
         answerWrong();
     }
-    if(runningQuestion < finalQuestion) {
+    if (runningQuestion < finalQuestion) {
         count = 0;
         runningQuestion++;
         renderQuestion();
-    }else{
+    } else {
         clearInterval(TIMER);
     }
 }
@@ -114,7 +148,7 @@ function answerWrong() {
 
 function scoreRender() {
     scoreContainer.style.display = "block";
-    let scorePercent = math.round(100 * score/ questions.length);
+    const scorePercent = Math.round(100 * score / questions.length);
 
 }
 
