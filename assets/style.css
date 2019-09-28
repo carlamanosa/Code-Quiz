@@ -1,0 +1,40 @@
+/* Card Body */
+
+.card {
+    margin: 0 auto;
+    width: 500px;
+    height: 350px;
+    clear: both;
+
+}
+
+/* Nav Bar */
+nav {
+    float: right;
+    padding-bottom: 30px;
+    height: 100px;
+}
+
+.timer {
+    float: right;
+}
+
+#counter {
+
+    float: right;
+}
+/* Starting Button */
+
+.btn {
+    margin: 130px;
+    float: center;
+
+
+}
+
+/* Quiz */
+
+#quiz {
+    margin: 0 auto;
+    padding-top: 40px;
+}
